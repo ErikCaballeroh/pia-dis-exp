@@ -1,4 +1,10 @@
 # Define server logic required to draw a histogram ----
+# 30 lineas de codigo por cada integrante del equipo
+# Una funcion minimo por integrante
+# Agregar modo oscuro
+# Se entrega el ultimo viernes
+# Entregable url del repositorio
+
 server <- function(input, output) {
 
     # Histogram of the Old Faithful Geyser Data ----

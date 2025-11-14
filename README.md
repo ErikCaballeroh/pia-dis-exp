@@ -5,12 +5,9 @@ Esta es una aplicación web interactiva creada con R Shiny.
 
 ```
 .
-├── app/
-│   ├── app.R      # Archivo principal de la aplicación
-│   ├── server.R   # Lógica del servidor
-│   ├── ui.R       # Interfaz de usuario
-│   └── www/       # Archivos estáticos (CSS, imágenes, etc.)
-└── data/          # Directorio para datos (si se necesitan)
+├── app.R      # Archivo principal de la aplicación
+├── server.R   # Lógica del servidor
+└── ui.R       # Interfaz de usuario
 ```
 
 ## Requisitos
