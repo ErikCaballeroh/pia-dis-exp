@@ -36,5 +36,5 @@ Para ejecutar la aplicación:
 2. Establece el directorio de trabajo en la carpeta del proyecto
 3. Ejecuta:
 ```R
-shiny::runApp("app")
+shiny::runApp("app.R")
 ```

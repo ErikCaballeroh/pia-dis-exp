@@ -1,25 +1,30 @@
-ui <- fluidPage(    
-    # App title ----
-    titlePanel("Hello Shiny!"),
-  
-    # Sidebar layout with input and output definitions ----
+library(shiny)
+
+ui <- fluidPage(
+
+    titlePanel("Sistema de Actividades - Diseño de Experimentos"),
+
     sidebarLayout(
-        # Sidebar panel for inputs ----
+
         sidebarPanel(
-        # Input: Slider for the number of bins ----
-            sliderInput(
-                inputId = "bins",
-                label = "Number of bins:",
-                min = 1,
-                max = 50,
-                value = 30
+            selectInput(
+                "actividad",
+                "Selecciona una actividad:",
+                choices = list(
+                    "Actividad 1" = 1,
+                    "Actividad 2" = 2,
+                    "Actividad 3" = 3,
+                    "Actividad 4" = 4,
+                    "Actividad 5" = 5,
+                    "Actividad 6" = 6,
+                    "Actividad 7" = 7,
+                    "Actividad 8" = 8
+                )
             )
         ),
 
-        # Main panel for displaying outputs ----
         mainPanel(
-            # Output: Histogram ----
-            plotOutput(outputId = "distPlot")
+            uiOutput("contenido")
         )
     )
 )
