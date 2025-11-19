@@ -24,7 +24,7 @@ ui <- fluidPage(
         mainPanel(
 
             # ------------------------------
-            # ACTIVIDAD 1 - Prueba t
+            # ACTIVIDAD 1
             # ------------------------------
             conditionalPanel(
                 condition = "input.actividad == 1",
@@ -35,13 +35,11 @@ ui <- fluidPage(
 
                 fluidRow(
                     column(6, textInput(
-                        "cal1",
-                        "Calibrador 1",
+                        "cal1", "Calibrador 1",
                         "0.262, 0.266, 0.264, 0.267, 0.271, 0.268, 0.268, 0.266, 0.267, 0.270, 0.267, 0.262"
                     )),
                     column(6, textInput(
-                        "cal2",
-                        "Calibrador 2",
+                        "cal2", "Calibrador 2",
                         "0.263, 0.267, 0.267, 0.267, 0.264, 0.261, 0.262, 0.261, 0.261, 0.266, 0.264, 0.269"
                     ))
                 ),
@@ -57,14 +55,14 @@ ui <- fluidPage(
             ),
 
             # ------------------------------
-            # ACTIVIDAD 2 - ANOVA UNA VÍA
+            # ACTIVIDAD 2
             # ------------------------------
             conditionalPanel(
                 condition = "input.actividad == 2",
 
-                h3("Actividad 2: ANOVA de una vía (Crecimiento de plantas)"),
+                h3("Actividad 2: ANOVA de una vía"),
 
-                h4("Ingrese los 4 valores por área separados por comas:"),
+                h4("Ingrese los 4 valores por cada área separados por comas:"),
 
                 fluidRow(
                     column(4, textInput("area1", "Área 1", "6.4, 5.8, 6.9, 8.0")),
@@ -88,10 +86,84 @@ ui <- fluidPage(
             ),
 
             # ------------------------------
-            # ACTIVIDADES VACÍAS
+            # ACTIVIDAD 3
             # ------------------------------
-            conditionalPanel(condition = "input.actividad == 3", h3("Actividad 3 (pendiente)")),
-            conditionalPanel(condition = "input.actividad == 4", h3("Actividad 4 (pendiente)")),
+            conditionalPanel(
+                condition = "input.actividad == 3",
+                h3("Actividad 3 (pendiente)")
+            ),
+
+            # ------------------------------
+            # ACTIVIDAD 4
+            # ------------------------------
+            conditionalPanel(
+                condition = "input.actividad == 4",
+
+                h3("Actividad 4: Diseño con factores Fr, Fc, Fl y Fg"),
+
+                h4("1) Captura de datos del experimento"),
+
+                h5("Bloques de tiempos (r1–r4)"),
+                fluidRow(
+                    column(6, textInput("r1", "r1:", "22.6, 15.4, 27.4, 19.0")),
+                    column(6, textInput("r2", "r2:", "19.4, 12.8, 25.1, 16.2"))
+                ),
+                fluidRow(
+                    column(6, textInput("r3", "r3:", "17.6, 26.1, 20.6, 23.1")),
+                    column(6, textInput("r4", "r4:", "19.2, 25.1, 19.7, 18.4"))
+                ),
+
+                h5("Niveles de Fl (l1–l4)"),
+                fluidRow(
+                    column(6, textInput("l1", "l1:", "A, B, C, D")),
+                    column(6, textInput("l2", "l2:", "B, A, D, C"))
+                ),
+                fluidRow(
+                    column(6, textInput("l3", "l3:", "C, D, A, B")),
+                    column(6, textInput("l4", "l4:", "D, C, B, A"))
+                ),
+
+                h5("Niveles de Fg (g1–g4)"),
+                fluidRow(
+                    column(6, textInput("g1", "g1:", "a, b, c, d")),
+                    column(6, textInput("g2", "g2:", "c, d, a, b"))
+                ),
+                fluidRow(
+                    column(6, textInput("g3", "g3:", "d, c, b, a")),
+                    column(6, textInput("g4", "g4:", "b, a, d, c"))
+                ),
+
+                numericInput(
+                    "act4_alpha",
+                    "Nivel de significancia α:",
+                    value = 0.05,
+                    min = 0.001,
+                    max = 0.2,
+                    step = 0.01
+                ),
+
+                actionButton("act4_run", "Ejecutar análisis", class = "btn btn-primary"),
+
+                hr(),
+                h4("2) Código R:"),
+                verbatimTextOutput("act4_codigo_aov"),
+
+                h4("3) Resultado de summary():"),
+                verbatimTextOutput("act4_summary"),
+
+                h4("4) Conclusión para cada factor (según α):"),
+                verbatimTextOutput("act4_conclusion_factores"),
+
+                h4("5) Prueba de Tukey para Fg:"),
+                verbatimTextOutput("act4_tukey"),
+
+                h4("Conclusión de la prueba de Tukey:"),
+                verbatimTextOutput("act4_conclusion_tukey")
+            ),
+
+            # ------------------------------
+            # ACTIVIDADES 5–8
+            # ------------------------------
             conditionalPanel(condition = "input.actividad == 5", h3("Actividad 5 (pendiente)")),
             conditionalPanel(condition = "input.actividad == 6", h3("Actividad 6 (pendiente)")),
             conditionalPanel(condition = "input.actividad == 7", h3("Actividad 7 (pendiente)")),
