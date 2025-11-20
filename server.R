@@ -52,6 +52,89 @@ server <- function(input, output, session) {
         })
     })
 
+    # ------------------------------------------------------------
+    # ACTIVIDAD 3
+    # ------------------------------------------------------------
+    
+observeEvent(input$run_bidimensional_anova, {
+
+    # Datos del ejemplo: Detergentes (filas) y Lavadoras (columnas)
+    # Fila 1 (Detergente 1): 53, 50, 59
+    # Fila 2 (Detergente 2): 54, 54, 60
+    # Fila 3 (Detergente 3): 56, 58, 63
+    # Fila 4 (Detergente 4): 50, 45, 58
+    
+    # Se concatenan los datos en un solo vector (por columnas es típico en R, pero aquí 
+    # se sigue el orden de la tabla para facilitar la creación de factores)
+    # En la práctica, se ingresarán los datos desde la UI (input$det1, input$det2, etc.)
+    # Se asume que los inputs son vectores de números, uno por cada detergente (fila).
+    
+    # NOTA: Este código asume que los datos están disponibles en las variables de entrada de Shiny, 
+    # por ejemplo: input$det1, input$det2, input$det3, input$det4.
+    
+    det1 <- as.numeric(unlist(strsplit(input$det1, ","))) # Ej: c(53, 50, 59)
+    det2 <- as.numeric(unlist(strsplit(input$det2, ","))) # Ej: c(54, 54, 60)
+    det3 <- as.numeric(unlist(strsplit(input$det3, ","))) # Ej: c(56, 58, 63)
+    det4 <- as.numeric(unlist(strsplit(input$det4, ","))) # Ej: c(50, 45, 58)
+    
+    # 1. Crear el vector de respuesta Y
+    Y <- c(det1, det2, det3, det4) # Vector de todas las puntuaciones: 53, 50, 59, 54, ...
+    
+    m <- length(det1) # Número de columnas (Lavadoras) = 3
+    n <- 4           # Número de filas (Detergentes) = 4
+    
+    # 2. Crear los factores
+    
+    # Factor Fila (Detergente): Repite cada nivel 'm' veces (número de lavadoras)
+    # 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4
+    FactorFila <- factor(rep(1:n, each = m)) 
+    
+    # Factor Columna (Lavadora): Repite la secuencia de niveles 'n' veces (número de detergentes)
+    # 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3
+    FactorColumna <- factor(rep(1:m, times = n))
+    
+    # 3. Crear el data frame
+    datos3 <- data.frame(
+        Y = Y,
+        Detergente = FactorFila,
+        Lavadora = FactorColumna
+    )
+    
+    # 4. Realizar el ANOVA Bifactorial (Modelo aditivo sin interacción)
+    modelo_bifactorial <- aov(Y ~ Detergente + Lavadora, data = datos3)
+    
+    # 5. Mostrar los resultados de ANOVA
+    output$anova_bifactorial_output <- renderPrint({ summary(modelo_bifactorial) })
+
+    # 6. Conclusión
+    output$anova_bifactorial_conclusion <- renderText({
+        
+        # Extraer los p-valores del resumen del ANOVA
+        s <- summary(modelo_bifactorial)
+        p_valor_detergente <- s[[1]]["Detergente", "Pr(>F)"]
+        p_valor_lavadora <- s[[1]]["Lavadora", "Pr(>F)"]
+        alpha <- 0.05 # Nivel de significancia del problema
+
+        conclusion_det <- ifelse(
+            p_valor_detergente < alpha,
+            "**El Detergente influye** (p-valor < 0.05, Se rechaza H₀).",
+            "**El Detergente NO influye** (p-valor ≥ 0.05, No se rechaza H₀)."
+        )
+        
+        conclusion_lav <- ifelse(
+            p_valor_lavadora < alpha,
+            "**La Lavadora influye** (p-valor < 0.05, Se rechaza H₀).",
+            "**La Lavadora NO influye** (p-valor ≥ 0.05, No se rechaza H₀)."
+        )
+
+        paste(
+            "Conclusiones (α = 0.05):",
+            "Factor Fila (Detergente):", conclusion_det,
+            "Factor Columna (Lavadora):", conclusion_lav,
+            sep = "\n"
+        )
+    })
+})
 
     # ------------------------------------------------------------
     # ACTIVIDAD 4

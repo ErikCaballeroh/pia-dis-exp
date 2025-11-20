@@ -90,7 +90,39 @@ ui <- fluidPage(
             # ------------------------------
             conditionalPanel(
                 condition = "input.actividad == 3",
-                h3("Actividad 3 (pendiente)")
+
+                h3("Actividad 3: ANOVA Bifactorial (Diseño sin interacción)"),
+                
+                h4("Ejemplo: Puntuaciones de efectividad para 4 detergentes y 3 lavadoras."),
+                
+                h5("Ingrese las 3 puntuaciones para cada detergente (separadas por comas, un valor por lavadora):"),
+
+                fluidRow(
+                    column(6, textInput(
+                        "det1", "Detergente 1 (Fila 1)", "53, 50, 59"
+                    )),
+                    column(6, textInput(
+                        "det2", "Detergente 2 (Fila 2)", "54, 54, 60"
+                    ))
+                ),
+                
+                fluidRow(
+                    column(6, textInput(
+                        "det3", "Detergente 3 (Fila 3)", "56, 58, 63"
+                    )),
+                    column(6, textInput(
+                        "det4", "Detergente 4 (Fila 4)", "50, 45, 58"
+                    ))
+                ),
+
+                actionButton("run_bidimensional_anova", "Ejecutar ANOVA Bifactorial", class = "btn btn-primary"),
+
+                hr(),
+                h4("Resultados del ANOVA (Detergente y Lavadora):"),
+                verbatimTextOutput("anova_bifactorial_output"),
+
+                h4("Conclusiones:"),
+                textOutput("anova_bifactorial_conclusion")
             ),
 
             # ------------------------------
